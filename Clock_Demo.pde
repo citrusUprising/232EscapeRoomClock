@@ -2,6 +2,7 @@ boolean play = false;
 boolean startHit = false;
 boolean alarmPlayed = false;
 boolean timeUp = false;
+boolean[] lasers;
 int laserMax = 4;
 int laser = 0;
 int min;
