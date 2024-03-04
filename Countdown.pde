@@ -23,7 +23,7 @@ long lastLoopTime = 0;
 void setup(){
   // Configure basic sketch properties
   //fullScreen();
-  size(640, 480);
+  size(1920, 1080);
   
   // Create our server thread
   server = new ServerThread(port, numberCommands);
@@ -43,7 +43,7 @@ void draw(){
   lastLoopTime = millis();
   
    // Draw countdown
-  textSize(128);
+  textSize(255);
   fill(255);
   textAlign(CENTER);
   text(nf(countDown / 60000.0, 0, 2), width/2, height/2);
@@ -107,6 +107,7 @@ void keyReleased(){
   // Reset
   if(key=='r'){
     lastLoopTime = millis();
+    countDown = maxTime;
     notPause = false;
     videoPlayed = false;
     locksVisible = false;
