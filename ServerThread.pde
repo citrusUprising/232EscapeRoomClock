@@ -2,11 +2,11 @@ class ServerThread extends Thread {
   int port;
   ServerSocket server;
   Socket socket;
-  int[] states;
+  boolean[] states;
   
   public ServerThread(int port, int numCommands){
     this.port = port;
-    this.states = new int [numCommands];
+    this.states = new boolean [numCommands];
     
     try {
       server = new ServerSocket(port);
@@ -39,7 +39,7 @@ class ServerThread extends Thread {
           }else{
           println("Read message: ", int(buf[0]));
           int message = int(buf[0]);
-          states [message] = 1;
+          states [message] = true;
           }
         }
       } catch(Exception e){
