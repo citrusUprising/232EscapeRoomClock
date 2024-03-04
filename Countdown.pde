@@ -36,7 +36,7 @@ void setup(){
 }
 
 void draw(){
-  background(255);
+  background(0);
   
   // Calculate delta time
   long delta = millis() - lastLoopTime;
@@ -44,13 +44,9 @@ void draw(){
   
    // Draw countdown
   textSize(128);
-  fill(0);
+  fill(255);
   textAlign(CENTER);
   text(nf(countDown / 60000.0, 0, 2), width/2, height/2);
-  
-  // Play and Pause
-  
-  // Reset
   
   if (notPause && countDown > 0){
     // Update countdown
@@ -69,14 +65,26 @@ void draw(){
   
   //Draw Locks
   if (locksVisible){
-  
+    for (int i =0; i < 3; i++){
+      
+    }
   }
   
   //Draw Checkmarks
   if (locksVisible){
+    for (int i =0; i < 3; i++){
+      
+    }
   }
   
   //Check Safe Code
+  displaySafeCode = true;
+  for (int i = 0; i < 3; i++){
+    if (!server.states[i]){
+      
+      break;
+    }
+  }
   
   //Display Safe Code
   if (displaySafeCode){
@@ -85,16 +93,30 @@ void draw(){
   
   //Queue Video Mid
   if(server.states[3]){
-    if(notPause && !videoPlayed){  
+    if(!videoPlayed){  
       videoPlayed = true;
       displaySafeCode = false;
       
       //Plays Video
       
-    } else {
-      //Test photoResistor Safe
-      println("Safe Photo Resistor recieving input");
     }
+  }  
+}
+
+void keyReleased(){
+  // Reset
+  if(key=='r'){
+    lastLoopTime = millis();
+    notPause = false;
+    videoPlayed = false;
+    locksVisible = false;
+    displaySafeCode = false;
+    for (int i = 0; i < server.states.length; i++){
+      server.states[i] = false;
+    }
+  }  
+  // Play and Pause
+  else if (key == ' '){
+    notPause = !notPause;
   }
-  
 }
