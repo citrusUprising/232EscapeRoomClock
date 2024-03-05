@@ -15,6 +15,8 @@ boolean videoPlayed = false;
 boolean locksVisible = false;
 boolean locksComplete = false;
 boolean displaySafeCode = false;
+PImage lock;
+PImage check;
 
 // Countdown variables
 final long maxTime = 3600000;
@@ -34,6 +36,11 @@ void setup(){
   
   // For calcualting delta time
   lastLoopTime = millis();
+  
+  //Setup Images
+  //size(50,50);
+  lock = loadImage("noun-lock-6635693.png");
+  check = loadImage("noun-checkmark-5910880.png");
 }
 
 void draw(){
@@ -73,10 +80,10 @@ void draw(){
   if (locksVisible){
     for (int i =0; i < 3; i++){
       //Draw Locks
-      //draw lock (920+50*i,700)
+      image(lock, 920+50*i, 700);
       if(server.states[i]){
         //draw checkmarks
-        //draw checkmark (920+50*i,700) 
+        image(check, 920+50*i, 700);
       }
     }
   }
@@ -128,7 +135,7 @@ void keyReleased(){
     notPause = !notPause;
   }
   //FOR TESTING PURPOSES ONLY
-  /*else if (key == '0'){
+  /**/else if (key == '0'){
     server.states[0] = true;
   }
   else if (key == '1'){
@@ -139,5 +146,5 @@ void keyReleased(){
   }
   else if (key == '3'){
     server.states[3] = true;
-  }*/
+  }/**/
 }
