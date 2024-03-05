@@ -13,6 +13,7 @@ int numberCommands = 6; // arduinos+start+reset
 boolean notPause = false;
 boolean videoPlayed = false;
 boolean locksVisible = false;
+boolean locksComplete = false;
 boolean displaySafeCode = false;
 
 // Countdown variables
@@ -56,48 +57,54 @@ void draw(){
   }
   
   //Check to Draw Locks
-  for (int i = 0; i < 3; i++){
-    if(server.states[i] == true){
-      locksVisible = true;
-      break;
+  if (!locksComplete){
+    for (int i = 0; i < 3; i++){
+      if(server.states[i] == true){
+        locksVisible = true;
+        break;
+      }
     }
   }
-  
-  //Draw Locks
-  if (locksVisible){
-    for (int i =0; i < 3; i++){
-      
-    }
+  else {
+    locksVisible = false;
   }
+
   
-  //Draw Checkmarks
   if (locksVisible){
     for (int i =0; i < 3; i++){
-      
+      //Draw Locks
+      //draw lock (920+50*i,700)
+      if(server.states[i]){
+        //draw checkmarks
+        //draw checkmark (920+50*i,700) 
+      }
     }
   }
   
   //Check Safe Code
   displaySafeCode = true;
+  locksComplete = true;
   for (int i = 0; i < 3; i++){
-    if (!server.states[i]){
-      
+    if (!server.states[i]||videoPlayed){
+      displaySafeCode = false;
+      locksComplete = false;
       break;
     }
   }
   
   //Display Safe Code
   if (displaySafeCode){
-  
+    textAlign(CENTER);
+    text("Password", width/2, height*3/4);
   }
   
   //Queue Video Mid
   if(server.states[3]){
     if(!videoPlayed){  
       videoPlayed = true;
-      displaySafeCode = false;
       
       //Plays Video
+      
       
     }
   }  
@@ -106,12 +113,12 @@ void draw(){
 void keyReleased(){
   // Reset
   if(key=='r'){
-    lastLoopTime = millis();
     countDown = maxTime;
     notPause = false;
     videoPlayed = false;
     locksVisible = false;
     displaySafeCode = false;
+    locksComplete = false;
     for (int i = 0; i < server.states.length; i++){
       server.states[i] = false;
     }
@@ -120,4 +127,17 @@ void keyReleased(){
   else if (key == ' '){
     notPause = !notPause;
   }
+  //FOR TESTING PURPOSES ONLY
+  /*else if (key == '0'){
+    server.states[0] = true;
+  }
+  else if (key == '1'){
+    server.states[1] = true;
+  }
+  else if (key == '2'){
+    server.states[2] = true;
+  }
+  else if (key == '3'){
+    server.states[3] = true;
+  }*/
 }

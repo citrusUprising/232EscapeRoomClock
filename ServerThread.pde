@@ -42,9 +42,8 @@ class ServerThread extends Thread {
             int message = int(buf[0]);
             if (clock.notPause){
               states [message] = true;
-            } else {
-              println ("Successful check, Light #", message);
             }
+            println ("Successful check, Light #", message);
           }
         }
       } catch(Exception e){
