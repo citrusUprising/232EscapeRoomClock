@@ -1,6 +1,6 @@
 class ServerThread extends Thread {
   int port;
-  //Countdown clock;
+  Countdown clock;
   ServerSocket server;
   Socket socket;
   boolean[] states;
@@ -40,9 +40,9 @@ class ServerThread extends Thread {
           }else{
             println("Read message: ", int(buf[0]));
             int message = int(buf[0]);
-           // if (clock.notPause){
+            if (clock.notPause){
               states [message] = true;
-            //}
+            }
             println ("Successful check, Light #", message);
           }
         }
