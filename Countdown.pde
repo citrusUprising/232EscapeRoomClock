@@ -4,7 +4,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
+import processing.video.*;
 
 // Server variables
 int port = 9876;
@@ -17,6 +17,7 @@ boolean locksComplete = false;
 boolean displaySafeCode = false;
 PImage lock;
 PImage check;
+Movie snyder;
 
 // Countdown variables
 final long maxTime = 3600000;
@@ -35,13 +36,14 @@ void setup(){
   lastLoopTime = millis();
   
   //Setup Images
-  size(50,50);
   lock = loadImage("noun-lock-6635693.png");
   check = loadImage("noun-checkmark-5910880.png");
   
   // Configure basic sketch properties
   //fullScreen();
   size(1920, 1080);
+  
+  snyder = new Movie (this, ".mov");
 }
 
 void draw(){
@@ -153,4 +155,8 @@ void keyReleased(){
   else if (key == '3'){
     server.states[3] = true;
   }/**/
+}
+
+void movieEvent(Movie m) {
+  m.read();
 }
