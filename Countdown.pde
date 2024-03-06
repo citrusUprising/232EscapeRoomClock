@@ -4,7 +4,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import processing.video.*;
+import processing.video.Movie;
 
 // Server variables
 int port = 9876;
@@ -15,9 +15,12 @@ boolean videoPlayed = false;
 boolean locksVisible = false;
 boolean locksComplete = false;
 boolean displaySafeCode = false;
+boolean playIntro = false;
+boolean endIntro = false;
 PImage lock;
 PImage check;
 Movie snyder;
+Movie scorcese;
 
 // Countdown variables
 final long maxTime = 3600000;
@@ -40,10 +43,11 @@ void setup(){
   check = loadImage("noun-checkmark-5910880.png");
   
   // Configure basic sketch properties
-  //fullScreen();
+  fullScreen();
   size(1920, 1080);
   
-  snyder = new Movie (this, ".mov");
+  snyder = new Movie (this, "ES - Zack Snyder Reveal + Scorsese Twist - Made with Clipchamp.mp4");
+  scorcese = new Movie (this, "ER - Martin Scorsese Intro Video - Made with Clipchamp.mp4");
 }
 
 void draw(){
@@ -66,9 +70,19 @@ void draw(){
     countDown = 0;
   }
   
+  if (playIntro&&!endIntro){
+    scorcese.play();
+    image(scorcese,0,0);
+    if(scorcese.time() >= scorcese.duration()-0.1){
+      scorcese.stop();
+      endIntro = true;
+      notPause =!notPause;
+    }
+  }
+  
   //Check to Draw Locks
   if (!locksComplete){
-    for (int i = 0; i < 3; i++){
+    for (int i = 1; i < 4; i++){
       if(server.states[i] == true){
         locksVisible = true;
         break;
@@ -81,14 +95,14 @@ void draw(){
 
   
   if (locksVisible){
-    for (int i =0; i < 3; i++){
+    for (int i =1; i < 4; i++){
       //draw circle
-      circle(670+300*i, 775, 275);
+      circle(370+300*i, 775, 275);
       //Draw Locks
-      image(lock, 670+300*i-150, 650, 300, 300);
+      image(lock, 370+300*i-150, 650, 300, 300);
       if(server.states[i]){
         //draw checkmarks
-        image(check, 670+300*i-160, 650, 320, 320);
+        image(check, 370+300*i-160, 650, 320, 320);
       }
     }
   }
@@ -96,7 +110,7 @@ void draw(){
   //Check Safe Code
   displaySafeCode = true;
   locksComplete = true;
-  for (int i = 0; i < 3; i++){
+  for (int i = 1; i < 4; i++){
     if (!server.states[i]){
       displaySafeCode = false;
       locksComplete = false;
@@ -110,17 +124,17 @@ void draw(){
   //Display Safe Code
   if (displaySafeCode){
     textAlign(CENTER);
-    text("Password", width/2, height*3/4);
+    text("743", width/2, height*3/4);
   }
   
   //Queue Video Mid
-  if(server.states[3]){
-    if(!videoPlayed){  
+  if(server.states[4]&&!videoPlayed){
+     //Plays Video
+     snyder.play();
+    image(snyder, 0, 0);
+    if(snyder.time() >= snyder.duration()-0.1){
+      snyder.stop();
       videoPlayed = true;
-      
-      //Plays Video
-      
-      
     }
   }  
 }
@@ -134,6 +148,8 @@ void keyReleased(){
     locksVisible = false;
     displaySafeCode = false;
     locksComplete = false;
+    playIntro = false;
+    endIntro = false;
     for (int i = 0; i < server.states.length; i++){
       server.states[i] = false;
     }
@@ -142,18 +158,22 @@ void keyReleased(){
   else if (key == ' '){
     notPause = !notPause;
   }
+  //Start room
+  else if (key == 'w'){
+    playIntro = true;
+  }
   //FOR TESTING PURPOSES ONLY
   /**/else if (key == '0'){
-    server.states[0] = true;
-  }
-  else if (key == '1'){
     server.states[1] = true;
   }
-  else if (key == '2'){
+  else if (key == '1'){
     server.states[2] = true;
   }
-  else if (key == '3'){
+  else if (key == '2'){
     server.states[3] = true;
+  }
+  else if (key == '3'){
+    server.states[4] = true;
   }/**/
 }
 
