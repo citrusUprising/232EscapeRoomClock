@@ -43,7 +43,7 @@ void setup(){
   check = loadImage("noun-checkmark-5910880.png");
   
   // Configure basic sketch properties
-  fullScreen();
+  //fullScreen();
   size(1920, 1080);
   
   snyder = new Movie (this, "ES - Zack Snyder Reveal + Scorsese Twist - Made with Clipchamp.mp4");
@@ -124,7 +124,7 @@ void draw(){
   //Display Safe Code
   if (displaySafeCode){
     textAlign(CENTER);
-    text("743", width/2, height*3/4);
+    text("891", width/2, height*3/4);
   }
   
   //Queue Video Mid

@@ -1,6 +1,5 @@
 class ServerThread extends Thread {
   int port;
-  Countdown clock;
   ServerSocket server;
   Socket socket;
   boolean[] states;
@@ -24,7 +23,7 @@ class ServerThread extends Thread {
       try {
         socket = server.accept();
       } catch(Exception e){
-        println("Error connecting to client: ", e.toString());
+        //println("Error connecting to client: ", e.toString());
       }
       
       // Once a connection is made, read from the socket to ObjectInputStream object
@@ -40,9 +39,7 @@ class ServerThread extends Thread {
           }else{
             println("Read message: ", int(buf[0]));
             int message = int(buf[0]);
-            if (clock.notPause){
-              states [message] = true;
-            }
+             states [message] = true;
             println ("Successful check, Light #", message);
           }
         }
