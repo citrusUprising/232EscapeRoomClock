@@ -15,6 +15,8 @@ boolean videoPlayed = false;
 boolean locksVisible = false;
 boolean locksComplete = false;
 boolean displaySafeCode = false;
+PImage lock;
+PImage check;
 
 // Countdown variables
 final long maxTime = 3600000;
@@ -22,10 +24,7 @@ long countDown = maxTime;
 long lastLoopTime = 0;
 
 void setup(){
-  // Configure basic sketch properties
-  //fullScreen();
-  size(1920, 1080);
-  
+
   // Create our server thread
   server = new ServerThread(port, numberCommands);
   
@@ -34,6 +33,15 @@ void setup(){
   
   // For calcualting delta time
   lastLoopTime = millis();
+  
+  //Setup Images
+  size(50,50);
+  lock = loadImage("noun-lock-6635693.png");
+  check = loadImage("noun-checkmark-5910880.png");
+  
+  // Configure basic sketch properties
+  //fullScreen();
+  size(1920, 1080);
 }
 
 void draw(){
@@ -72,11 +80,13 @@ void draw(){
   
   if (locksVisible){
     for (int i =0; i < 3; i++){
+      //draw circle
+      circle(670+300*i, 775, 275);
       //Draw Locks
-      //draw lock (920+50*i,700)
+      image(lock, 670+300*i-150, 650, 300, 300);
       if(server.states[i]){
         //draw checkmarks
-        //draw checkmark (920+50*i,700) 
+        image(check, 670+300*i-160, 650, 320, 320);
       }
     }
   }
@@ -85,11 +95,14 @@ void draw(){
   displaySafeCode = true;
   locksComplete = true;
   for (int i = 0; i < 3; i++){
-    if (!server.states[i]||videoPlayed){
+    if (!server.states[i]){
       displaySafeCode = false;
       locksComplete = false;
       break;
     }
+  }
+  if (videoPlayed){
+    displaySafeCode = false;
   }
   
   //Display Safe Code
@@ -128,7 +141,7 @@ void keyReleased(){
     notPause = !notPause;
   }
   //FOR TESTING PURPOSES ONLY
-  /*else if (key == '0'){
+  /**/else if (key == '0'){
     server.states[0] = true;
   }
   else if (key == '1'){
@@ -139,5 +152,5 @@ void keyReleased(){
   }
   else if (key == '3'){
     server.states[3] = true;
-  }*/
+  }/**/
 }
