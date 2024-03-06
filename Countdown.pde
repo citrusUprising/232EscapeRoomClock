@@ -26,6 +26,8 @@ Movie scorcese;
 final long maxTime = 3600000;
 long countDown = maxTime;
 long lastLoopTime = 0;
+int min = (int)countDown / 60000;
+String sec = formatSec(((int)countDown % 60000)/1000);
 
 void setup(){
 
@@ -61,11 +63,14 @@ void draw(){
   textSize(255);
   fill(255);
   textAlign(CENTER);
-  text(nf(countDown / 60000.0, 0, 2), width/2, height/2);
+  text(min+":"+sec, width/2, height/2);
   
   if (notPause && countDown > 0){
     // Update countdown
     countDown -= delta;
+    min = (int)countDown / 60000;
+    sec = formatSec(((int)countDown % 60000)/1000);
+    
   }else if (notPause){
     countDown = 0;
   }
@@ -150,6 +155,8 @@ void keyReleased(){
     locksComplete = false;
     playIntro = false;
     endIntro = false;
+    min = (int)countDown / 60000;
+    sec = formatSec(((int)countDown % 60000)/1000);
     for (int i = 0; i < server.states.length; i++){
       server.states[i] = false;
     }
@@ -179,4 +186,12 @@ void keyReleased(){
 
 void movieEvent(Movie m) {
   m.read();
+}
+
+String formatSec (int i){
+  String result = i+"";
+  if(i < 10){
+    result = "0" + result;
+  }
+  return result;
 }
