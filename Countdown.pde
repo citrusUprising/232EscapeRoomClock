@@ -45,8 +45,8 @@ void setup(){
   check = loadImage("noun-checkmark-5910880.png");
   
   // Configure basic sketch properties
-  //fullScreen();
-  size(1920, 1080);
+  fullScreen();
+  //size(1920, 1080);
   
   snyder = new Movie (this, "ES - Zack Snyder Reveal + Scorsese Twist - Made with Clipchamp.mp4");
   scorcese = new Movie (this, "ER - Martin Scorsese Intro Video - Made with Clipchamp.mp4");
