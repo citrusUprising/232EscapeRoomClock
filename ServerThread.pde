@@ -39,7 +39,7 @@ class ServerThread extends Thread {
           }else{
             println("Read message: ", int(buf[0]));
             int message = int(buf[0]);
-             states [message] = true;
+            laserTrigger(message);
             println ("Successful check, Light #", message);
           }
         }

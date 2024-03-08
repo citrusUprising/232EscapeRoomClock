@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import processing.video.Movie;
+import processing.sound.*;
 
 // Server variables
 int port = 9876;
@@ -21,9 +22,11 @@ PImage lock;
 PImage check;
 Movie snyder;
 Movie scorcese;
+SoundFile correct;
 
 // Countdown variables
-final long maxTime = 3600000;
+final int totalMinute = 45;
+final long maxTime = totalMinute*60000;
 long countDown = maxTime;
 long lastLoopTime = 0;
 int min = (int)countDown / 60000;
@@ -50,6 +53,7 @@ void setup(){
   
   snyder = new Movie (this, "ES - Zack Snyder Reveal + Scorsese Twist - Made with Clipchamp.mp4");
   scorcese = new Movie (this, "ER - Martin Scorsese Intro Video - Made with Clipchamp.mp4");
+  correct = new SoundFile(this, "zapsplat_multimedia_game_sound_game_show_correct_tone_bright_positive_004_80745.mp3");
 }
 
 void draw(){
@@ -170,17 +174,17 @@ void keyReleased(){
     playIntro = true;
   }
   //FOR TESTING PURPOSES ONLY
-  /**/else if (key == '0'){
-    server.states[1] = true;
-  }
-  else if (key == '1'){
-    server.states[2] = true;
+  /**/else if (key == '1'){
+    laserTrigger(1);
   }
   else if (key == '2'){
-    server.states[3] = true;
+    laserTrigger(2);
   }
   else if (key == '3'){
-    server.states[4] = true;
+    laserTrigger(3);
+  }
+  else if (key == '4'){
+    laserTrigger(4);
   }/**/
 }
 
@@ -194,4 +198,14 @@ String formatSec (int i){
     result = "0" + result;
   }
   return result;
+}
+
+public void laserTrigger (int ID){
+  if (!server.states[ID]&&ID<4){
+    /*Game sound, game show correct tone, bright and positive 4
+    Sound provided by ZapSplat
+    https://www.zapsplat.com/author/zapsplat/*/
+    correct.play();
+  }
+    server.states[ID] = true;
 }
