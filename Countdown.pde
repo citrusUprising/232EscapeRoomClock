@@ -10,7 +10,7 @@ import processing.sound.*;
 // Server variables
 int port = 9876;
 ServerThread server;
-int numberCommands = 6; // arduinos+start+reset
+int numberCommands = 6; // start+arduinos+reset
 boolean notPause = false;
 boolean videoPlayed = false;
 boolean locksVisible = false;
@@ -20,6 +20,7 @@ boolean playIntro = false;
 boolean endIntro = false;
 PImage lock;
 PImage check;
+PImage safe;
 Movie snyder;
 Movie scorcese;
 SoundFile correct;
@@ -46,6 +47,7 @@ void setup(){
   //Setup Images
   lock = loadImage("noun-lock-6635693.png");
   check = loadImage("noun-checkmark-5910880.png");
+  safe = loadImage("noun-safe-6676180.png");
   
   // Configure basic sketch properties
   fullScreen();
@@ -134,6 +136,10 @@ void draw(){
   if (displaySafeCode){
     textAlign(CENTER);
     text("891", width/2, height*3/4);
+    circle(width/4+100, height*3/4-100, 275);
+    circle(width*3/4-100, height*3/4-100, 275);
+    image(safe, width/4-50, height/2+50, 300, 300);
+    image(safe, width*3/4-250, height/2+50, 300, 300);
   }
   
   //Queue Video Mid
